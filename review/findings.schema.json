@@ -3,7 +3,12 @@
   "title": "LogicReviewFindings",
   "type": "object",
   "additionalProperties": false,
-  "required": ["summary", "gaps", "independence", "findings"],
+  "required": [
+    "summary",
+    "gaps",
+    "independence",
+    "findings"
+  ],
   "properties": {
     "summary": {
       "type": "string",
@@ -12,18 +17,25 @@
     "gaps": {
       "type": "array",
       "description": "Inputs from the manifest that were missing or unreadable.",
-      "items": { "type": "string" }
+      "items": {
+        "type": "string"
+      }
     },
     "independence": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["independent", "explanation"],
+      "required": [
+        "independent",
+        "explanation"
+      ],
       "properties": {
         "independent": {
           "type": "boolean",
           "description": "True if the Python rebuild was written from the business rule rather than translated from the production logic."
         },
-        "explanation": { "type": "string" }
+        "explanation": {
+          "type": "string"
+        }
       }
     },
     "findings": {
@@ -35,6 +47,7 @@
           "id",
           "severity",
           "category",
+          "evidence",
           "claim",
           "scenario",
           "breaks",
@@ -42,8 +55,18 @@
           "test_to_confirm"
         ],
         "properties": {
-          "id": { "type": "string", "description": "F1, F2, ..." },
-          "severity": { "type": "string", "enum": ["high", "medium", "low"] },
+          "id": {
+            "type": "string",
+            "description": "F1, F2, ..."
+          },
+          "severity": {
+            "type": "string",
+            "enum": [
+              "high",
+              "medium",
+              "low"
+            ]
+          },
           "category": {
             "type": "string",
             "enum": [
@@ -60,12 +83,30 @@
               "other"
             ]
           },
-          "claim": { "type": "string", "description": "One sentence: what is wrong." },
+          "evidence": {
+            "type": "string",
+            "enum": [
+              "seen-in-code",
+              "inferred"
+            ],
+            "description": "seen-in-code: the defect was read in a named file. inferred: reasoned from the rule, data or NetSuite behaviour."
+          },
+          "claim": {
+            "type": "string",
+            "description": "One sentence: what is wrong."
+          },
           "scenario": {
             "type": "string",
             "description": "Concrete rows, values, and order that produce the wrong result."
           },
-          "breaks": { "type": "string", "enum": ["production", "rebuild", "both"] },
+          "breaks": {
+            "type": "string",
+            "enum": [
+              "production",
+              "rebuild",
+              "both"
+            ]
+          },
           "location": {
             "type": "string",
             "description": "File and line or query clause where the defect lives."

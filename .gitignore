@@ -3,3 +3,5 @@ notes/
 *.result.*
 *.error.txt
 .env
+__pycache__/
+*.pyc

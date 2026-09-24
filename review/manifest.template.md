@@ -23,5 +23,9 @@ Copy to `review/manifest.md` in the project being reviewed and fill in each path
 - `data/<extract>.json`
 <!-- Local extracts only. Gitignored. Note the account and pull date. -->
 
+## Live mode
+<!-- off (default). To allow the reviewer read-only nsq runs: `Live mode: on, profile <sandbox-alias>`. Sandbox only. -->
+Live mode: off
+
 ## Known limits
 <!-- Scenarios already known to be out of scope, so the reviewer does not re-report them. -->

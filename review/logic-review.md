@@ -18,11 +18,20 @@ Read the manifest first: the `<stdin>` block if one is attached, otherwise
 
 If any input is missing, say so in `gaps` and review what exists.
 
+**Known limits are out of scope.** The manifest's "Known limits" section lists
+scenarios the builder already knows about. Do not report them, or variations of
+them, as findings. If you think a known limit is more serious than the builder
+believes, say so once in `summary`.
+
 ## Rules
 
 - Read only. Do not edit, create, or delete files. Do not run network commands or
-  contact NetSuite. You may run local read-only commands (grep, python on the local
-  extracts) to check a claim.
+  contact NetSuite, unless the manifest turns on live mode (below). You may run
+  local read-only commands (grep, python on the local extracts) to check a claim.
+- Label every finding's `evidence`: `seen-in-code` when you read the defect in a
+  file and can point to it, `inferred` when you reasoned it from the rule, the
+  data or NetSuite behaviour without seeing it happen. Do not present an
+  inferred finding as seen.
 - Every finding needs a concrete data scenario: which rows, with which values, in which
   order, produce a wrong result. "Consider edge cases" is not a finding.
 - Say which implementation breaks (production, rebuild, or both) and why they would
@@ -30,6 +39,14 @@ If any input is missing, say so in `gaps` and review what exists.
 - Prefer findings the tie-out sample could not have caught. If the report shows the
   sample includes the scenario and it tied, it is not a finding.
 - Do not repeat style, naming, or performance comments unless they change the result.
+
+## Live mode (only if the manifest says `Live mode: on`)
+
+The manifest names a **sandbox** nsq profile. You may run read-only `nsq run`
+against that profile only, to rerun a query from the manifest, confirm a row
+count, or recompute a figure and diff it. Never pass `--prod`, never use another
+profile, never write. Report any figure that differs by more than one cent.
+Without that line in the manifest, live mode is off.
 
 ## Where to look
 
@@ -68,6 +85,12 @@ but untested scenario. `low` means fragile but currently correct.
 For each finding, write `test_to_confirm` as a specific test the builder can add: the
 input rows and the expected output. The builder will run it; a passing test dismisses
 your finding, a failing one confirms it.
+
+The builder will triage every finding into a response document: **fixed** (the
+test failed, the code changed, the test now passes), **documented** (the test
+passed, so the finding is dismissed, or the behaviour is accepted and written
+into Known limits), or **open** (not yet decided, with who decides). Write
+findings so that triage is possible.
 
 If you find nothing, return an empty `findings` list and explain in `summary` what you
 checked. Do not invent findings to fill the list.

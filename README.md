@@ -7,6 +7,11 @@ second model try to break it before a person sees it.
 It is the link after [nsq](https://github.com/nazir99/nsq) (find, verify, store the
 data) and before the build and the reader review.
 
+## Requires
+
+- **nsq** skill and CLI: https://github.com/nazir99/nsq. All NetSuite data comes in
+  through nsq, and this skill starts only after nsq reports `NSQ: VERIFIED`.
+
 ## Planned
 
 - Chaining and allocation patterns for documents, lots, work orders, BOMs and GL lines

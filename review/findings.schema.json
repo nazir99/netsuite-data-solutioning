@@ -1,0 +1,81 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "LogicReviewFindings",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "gaps", "independence", "findings"],
+  "properties": {
+    "summary": {
+      "type": "string",
+      "description": "Two to four sentences: what was checked and the overall verdict."
+    },
+    "gaps": {
+      "type": "array",
+      "description": "Inputs from the manifest that were missing or unreadable.",
+      "items": { "type": "string" }
+    },
+    "independence": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["independent", "explanation"],
+      "properties": {
+        "independent": {
+          "type": "boolean",
+          "description": "True if the Python rebuild was written from the business rule rather than translated from the production logic."
+        },
+        "explanation": { "type": "string" }
+      }
+    },
+    "findings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "id",
+          "severity",
+          "category",
+          "claim",
+          "scenario",
+          "breaks",
+          "location",
+          "test_to_confirm"
+        ],
+        "properties": {
+          "id": { "type": "string", "description": "F1, F2, ..." },
+          "severity": { "type": "string", "enum": ["high", "medium", "low"] },
+          "category": {
+            "type": "string",
+            "enum": [
+              "row-set",
+              "joins",
+              "ordering",
+              "signs",
+              "quantities",
+              "amounts",
+              "dates",
+              "nulls",
+              "scope",
+              "tie-out-validity",
+              "other"
+            ]
+          },
+          "claim": { "type": "string", "description": "One sentence: what is wrong." },
+          "scenario": {
+            "type": "string",
+            "description": "Concrete rows, values, and order that produce the wrong result."
+          },
+          "breaks": { "type": "string", "enum": ["production", "rebuild", "both"] },
+          "location": {
+            "type": "string",
+            "description": "File and line or query clause where the defect lives."
+          },
+          "test_to_confirm": {
+            "type": "string",
+            "description": "Input rows and expected output for a test that confirms or dismisses the finding."
+          }
+        }
+      }
+    }
+  }
+}

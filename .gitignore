@@ -1,0 +1,5 @@
+# Raw working notes contain client data. Never publish.
+notes/
+*.result.*
+*.error.txt
+.env
